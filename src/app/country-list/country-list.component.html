@@ -1,0 +1,28 @@
+<h2 class="title">Countries ({{ countries.length }})</h2>
+
+<div *ngIf="loading" class="loading">
+  <p>Loading countries...</p>
+</div>
+
+<div *ngIf="error" class="error">
+  <p>{{ error }}</p>
+  <button (click)="loadCountries()">Retry</button>
+</div>
+
+<div *ngIf="!loading && !error" class="country-list-container">
+  <div class="country-list">
+    <div *ngFor="let country of countries; trackBy: trackByCountry" 
+         class="country-card" 
+         (click)="viewCountry(country.name)"
+         [@cardAnimation]="country">
+      <div class="flag-container">
+        <img [src]="country.flag || 'assets/placeholder.png'" 
+             [alt]="country.name + ' flag'" 
+             width="50"
+             loading="lazy"
+             (error)="onImageError($event, country)">
+      </div>
+      <span class="country-name">{{ country.name || 'Unnamed' }}</span>
+    </div>
+  </div>
+</div>
